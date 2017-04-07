@@ -13,6 +13,8 @@ def add_book(title, author, isbn, num_pages):
     conn.sadd('books:title:' + title, isbn)
     conn.sadd('books:author', author)
     conn.sadd('books:author:' + author, isbn)
+    conn.sadd('books:number_pages', num_pages)
+    conn.sadd('books:number_pages:' + num_pages, isbn)
     return 1
 
 
@@ -20,6 +22,7 @@ def edit_book(title, author, isbn, num_pages):
     if conn.sismember('books:isbn', isbn):
         old_title = conn.hget('books:isbn:' + isbn, 'Title')
         old_author = conn.hget('books:isbn:' + isbn, 'Author')
+        old_num_pages = conn.hget('books:isbn:' + isbn, 'NumPages')
         conn.hmset('books:isbn:' + isbn, {'Title': title, 'Author': author, 'NumPages': num_pages})
         conn.srem('books:title:' + old_title, isbn)
         if not conn.smembers('books:title:' + old_title):
@@ -31,6 +34,11 @@ def edit_book(title, author, isbn, num_pages):
             conn.srem('books:author', old_author)
         conn.sadd('books:author', author)
         conn.sadd('books:author:' + author, isbn)
+        conn.srem('books:number_pages:' + old_num_pages, isbn)
+        if not conn.smembers('books:number_pages:' + old_num_pages):
+            conn.srem('books:number_pages', old_num_pages)
+        conn.sadd('books:number_pages', num_pages)
+        conn.sadd('books:number_pages:' + num_pages, isbn)
         return 1
     return 0
 
@@ -49,6 +57,10 @@ def delete_book(isbn):
         conn.srem('books:author:' + author, isbn)
         if not conn.smembers('books:author:' + author):
             conn.srem('books:author', author)
+        num_pages = book[4]
+        conn.srem('books:number_pages:' + num_pages, isbn)
+        if not conn.smembers('books:number_pages:' + num_pages):
+            conn.srem('books:number_pages', num_pages)
         checkin(isbn)
         return book
     return 0
@@ -84,6 +96,52 @@ def get_book_by_author(author):
             books.insert(0, book)
         return books
     return 0
+
+
+def sort_books_isbn():
+    sorted = conn.sort('books:isbn')
+    results = []
+    for isbn in sorted:
+        book = [isbn]
+        book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
+        results.insert(len(results), book)
+    return results
+
+
+def sort_books_title():
+    sorted = conn.sort('books:title', alpha=True)
+    results = []
+    for title in sorted:
+        isbns = conn.smembers('books:title:' + title)
+        for isbn in isbns:
+            book = [isbn]
+            book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
+            results.insert(len(results), book)
+    return results
+
+
+def sort_books_author():
+    sorted = conn.sort('books:author', alpha=True)
+    results = []
+    for author in sorted:
+        isbns = conn.smembers('books:author:' + author)
+        for isbn in isbns:
+            book = [isbn]
+            book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
+            results.insert(len(results), book)
+    return results
+
+
+def sort_books_number_pages():
+    sorted = conn.sort('books:number_pages')
+    results = []
+    for num_pages in sorted:
+        isbns = conn.smembers('books:author:' + num_pages)
+        for isbn in isbns:
+            book = [isbn]
+            book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
+            results.insert(len(results), book)
+    return results
 
 
 def add_borrower(name, username, phone):
