@@ -136,7 +136,7 @@ def sort_books_number_pages():
     sorted = conn.sort('books:number_pages')
     results = []
     for num_pages in sorted:
-        isbns = conn.smembers('books:author:' + num_pages)
+        isbns = conn.smembers('books:number_pages:' + num_pages)
         for isbn in isbns:
             book = [isbn]
             book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
