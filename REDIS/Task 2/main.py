@@ -68,7 +68,7 @@ def get_book_by_title(title):
         for isbn in isbns:
             book = [isbn]
             book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
-            books += book
+            books.insert(0, book)
         return books
     return 0
 
@@ -80,7 +80,7 @@ def get_book_by_author(author):
         for isbn in isbns:
             book = [isbn]
             book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
-            books += book
+            books.insert(0, book)
         return books
     return 0
 
@@ -139,7 +139,7 @@ def get_borrower_by_name(name):
         for user in username:
             borrower = [user]
             borrower += conn.hmget('borrowers:username:' + username, ['Name', 'Phone'])
-            borrowers +=  borrower
+            borrowers.insert(0, borrower)
         return borrowers
     return 0
 
