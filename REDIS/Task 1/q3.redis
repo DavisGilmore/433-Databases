@@ -31,4 +31,4 @@ zadd ads:price 2400 "BMW 320 for Sale"
 zadd ads:price 0 "Job as Housekeeper"
 zadd ads:price 750 "3 bed apartment to let"
 zadd ads:price 0 "Free MP3 Player"
-zrange ads:price 0 -1
+zrevrange ads:price 0 -1
