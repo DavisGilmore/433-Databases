@@ -138,7 +138,7 @@ def get_borrower_by_name(name):
         borrowers = []
         for user in username:
             borrower = [user]
-            borrower += conn.hmget('borrowers:username:' + username, ['Name', 'Phone'])
+            borrower += conn.hmget('borrowers:username:' + user, ['Name', 'Phone'])
             borrowers.insert(0, borrower)
         return borrowers
     return 0
