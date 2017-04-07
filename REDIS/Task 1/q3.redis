@@ -27,3 +27,8 @@ hset ad:4 Description "Free MP3 player, broken."
 hset ad:4 Location "South Bend"
 hset ad:4 Date "2014-11-28 21:15"
 hset ad:4 Author steve
+zadd ads:price 2400 "BMW 320 for Sale"
+zadd ads:price 0 "Job as Housekeeper"
+zadd ads:price 750 "3 bed apartment to let"
+zadd ads:price 0 "Free MP3 Player"
+zrange ads:price 0 -1
