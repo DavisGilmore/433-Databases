@@ -40,7 +40,7 @@ def delete_book(isbn):
         conn.srem('books:isbn', isbn)
         book = [isbn]
         book += conn.hmget('books:isbn:' + isbn, ['Title', 'Author', 'NumPages'])
-        conn.hdel('books:isbn:' + isbn)
+        conn.hdel('books:isbn:' + isbn, 'Title', 'Author', 'NumPages')
         title = book[2]
         conn.srem('books:title:' + title, isbn)
         if not conn.smembers('books:title:' + title):
@@ -115,6 +115,7 @@ def delete_borrower(username):
         conn.hdel('borrowed:booksOut', username)
         borrower = [username]
         borrower += conn.hmget('borrowers:username:' + username, ['Name', 'Phone'])
+        conn.hdel('borrowers:username:' + username, 'Name', 'Phone')
         name = borrower[2]
         conn.srem('borrowers:name:' + name, username)
         if not conn.smembers('borrowers:name:' + name):
