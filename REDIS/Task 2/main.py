@@ -49,6 +49,7 @@ def delete_book(isbn):
         conn.srem('books:author:' + author, isbn)
         if not conn.smembers('books:author:' + author):
             conn.srem('books:author', author)
+        checkin(isbn)
         return book
     return 0
 
@@ -120,6 +121,9 @@ def delete_borrower(username):
         conn.srem('borrowers:name:' + name, username)
         if not conn.smembers('borrowers:name:' + name):
             conn.srem('borrowers:name', name)
+        books = conn.smembers('borrowed:username:' + username)
+        for isbn in books:
+            checkin(isbn)
         return borrower
     return 0
 
@@ -151,22 +155,29 @@ def checkout(username, isbn):
         conn.sadd('borrowed:isbn', isbn)
         conn.hincrby('borrowed:booksOut', username)
         conn.hmset('borrowed:out', {isbn: username})
+        conn.sadd('borrowed:username:' + username, isbn)
         return 1
     return 0
 
 
-def checkin(username, isbn):
-    if conn.sismember('borrowers:username', username) and conn.sismember('books:isbn', isbn):
-        if conn.sismember('borrowed:isbn', isbn):
-            conn.srem('borrowed:isbn', isbn)
-            conn.hincrby('borrowed:booksOut', username, -1)
-            conn.hdel('borrowed:out', isbn)
-            return 1
-        return 0
+def checkin(isbn):
+    if conn.sismember('books:isbn', isbn) and conn.sismember('borrowed:isbn', isbn):
+        username = conn.hget('borrowed:out', isbn)
+        conn.srem('borrowed:isbn', isbn)
+        conn.hincrby('borrowed:booksOut', username, -1)
+        conn.hdel('borrowed:out', isbn)
+        conn.srem('borrowed:username:' + username, isbn)
+        return 1
     return 0
 
 
 def books_borrowed(username):
     if conn.sismember('borrowers:username', username):
         return conn.hget('borrowed:booksOut', username)
+    return 0
+
+
+def borrowed_by(isbn):
+    if conn.sismember('books:isbn', isbn) and conn.sismember('borrowed:isbn', isbn):
+        return conn.hget('borrowed:out', isbn)
     return 0
