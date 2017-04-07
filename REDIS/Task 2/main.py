@@ -45,6 +45,7 @@ def edit_book(title, author, isbn, num_pages):
 
 def delete_book(isbn):
     if conn.sismember('books:isbn', isbn):
+        checkin(isbn)
         conn.srem('books:isbn', isbn)
         book = [isbn]
         book += conn.hmget('books:isbn:' + str(isbn), ['Title', 'Author', 'NumPages'])
@@ -61,7 +62,6 @@ def delete_book(isbn):
         conn.srem('books:number_pages:' + str(num_pages), isbn)
         if not conn.smembers('books:number_pages:' + str(num_pages)):
             conn.srem('books:number_pages', num_pages)
-        checkin(isbn)
         return book
     return 0
 
