@@ -1,22 +1,22 @@
-hset ads:mika_h ad:1:Title "BMW 320 for Sale"
-hset ads:mika_h ad:1:Description "BMW 320d, 2.0 diesel, 4 doors, automatic transmission. Year: 2007. Miles: 107,000. Price: 2400."
-hset ads:mika_h ad:1:Location Btown
-hset ads:mika_h ad:1:Date "2014-12-26 12:37"
-hset ads:mika_h ad:1:Author mika_h
-hset ads:steve ad:2:Title "Job as Housekeeper"
-hset ads:steve ad:2:Description "I am looking for a job as housekeeper."
-hset ads:steve ad:2:Location "Terre Haute"
-hset ads:steve ad:2:Date "2014-12-30 23:43"
-hset ads:steve ad:2:Author steve
-hset ads:mika_h ad:3:Title "3 bed apartment to let"
-hset ads:mika_h ad:3:Description "Very good. A must see. Price: 750"
-hset ads:mika_h ad:3:Location Btown
-hset ads:mika_h ad:3:Date "2015-01-17 10:44"
-hset ads:mika_h ad:3:Author mika_h
-hset ads:steve ad:4:Title "Free MP3 Player"
-hset ads:steve ad:4:Description "Free MP3 player, broken."
-hset ads:steve ad:4:Location "South Bend"
-hset ads:steve ad:4:Date "2014-11-28 21:15"
-hset ads:steve ad:4:Author steve
-hgetall ads:mika_h
-hgetall ads:steve
+zadd ads:mika_h 1 "ad:1:Title: BMW 320 for Sale"
+zadd ads:mika_h 1 "ad:1:Description: BMW 320d, 2.0 diesel, 4 doors, automatic transmission. Year: 2007. Miles: 107,000. Price: 2400."
+zadd ads:mika_h 1 "ad:1:Location: Btown"
+zadd ads:mika_h 1 "ad:1:Date: 2014-12-26 12:37"
+zadd ads:mika_h 1 "ad:1:Author: mika_h"
+zadd ads:steve 2 "ad:2:Title: Job as Housekeeper"
+zadd ads:steve 2 "ad:2:Description: I am looking for a job as housekeeper."
+zadd ads:steve 2 "ad:2:Location: Terre Haute"
+zadd ads:steve 2 "ad:2:Date: 2014-12-30 23:43"
+zadd ads:steve 2 "ad:2:Author: steve"
+zadd ads:mika_h 3 "ad:3:Title: 3 bed apartment to let"
+zadd ads:mika_h 3 "ad:3:Description: Very good. A must see. Price: 750"
+zadd ads:mika_h 3 "ad:3:Location: Btown"
+zadd ads:mika_h 3 "ad:3:Date: 2015-01-17 10:44"
+zadd ads:mika_h 3 "ad:3:Author: mika_h"
+zadd ads:steve 4 "ad:4:Title: Free MP3 Player"
+zadd ads:steve 4 "ad:4:Description: Free MP3 player, broken."
+zadd ads:steve 4 "ad:4:Location: South Bend"
+zadd ads:steve 4 "ad:4:Date: 2014-11-28 21:15"
+zadd ads:steve 4 "ad:4:Author steve"
+zrange ads:mika_h 0 -1
+zrange ads:steve_h 0 -1
