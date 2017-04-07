@@ -152,7 +152,7 @@ def add_borrower(name, username, phone):
     conn.hmset('borrowed:booksOut', {username: 0})
     conn.hmset('borrowers:username:' + str(username), {'Name': name, 'Phone': phone})
     conn.sadd('borrowers:name', name)
-    conn.sadd('borrowers:name:' + name, username)
+    conn.sadd('borrowers:name:' + str(name), username)
     return 1
 
 
