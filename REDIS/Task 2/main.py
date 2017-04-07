@@ -8,13 +8,13 @@ def add_book(title, author, isbn, num_pages):
     if conn.sismember('books:isbn', isbn):
         return 0
     conn.sadd('books:isbn', isbn)
-    conn.hmset('books:isbn:' + isbn, {'Title': title, 'Author': author, 'NumPages': num_pages})
+    conn.hmset('books:isbn:' + str(isbn), {'Title': title, 'Author': author, 'NumPages': num_pages})
     conn.sadd('books:title', title)
     conn.sadd('books:title:' + title, isbn)
     conn.sadd('books:author', author)
     conn.sadd('books:author:' + author, isbn)
-    conn.sadd('books:number_pages', num_pages)
-    conn.sadd('books:number_pages:' + num_pages, isbn)
+    conn.sadd('books:number_pages', str(num_pages))
+    conn.sadd('books:number_pages:' + str(num_pages), isbn)
     return 1
 
 
@@ -99,7 +99,7 @@ def get_book_by_author(author):
 
 
 def sort_books_isbn():
-    sorted = conn.sort('books:isbn')
+    sorted = conn.sort('books:isbn', alpha=True)
     results = []
     for isbn in sorted:
         book = [isbn]
