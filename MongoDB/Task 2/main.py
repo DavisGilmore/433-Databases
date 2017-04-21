@@ -244,7 +244,7 @@ def book_status(isbn):
 def books_borrowed(username):
     if db.borrowers.count({'Username': username}) <= 0:
         return 0
-    books = db.books.find({'Username': username}, {'_id': 0, 'Books': 1})
+    books = db.borrowers.find({'Username': username}, {'_id': 0, 'Books': 1})
     for b in books:
         number = b.values()[0]
     return number
