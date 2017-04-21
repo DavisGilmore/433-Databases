@@ -1,1 +1,1 @@
-db.ads.find().sort({'Price':1})
+db.ads.find().sort({'Price':1}).pretty()
