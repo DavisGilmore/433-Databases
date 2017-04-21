@@ -466,3 +466,6 @@ def main():
             return 0
         else :
             print("Available commands are: \'add book\', \'edit book\', \'del book\', \'search books\', \'sort books\', \'add borrower\', \'edit borrower\', \'del borrower\', \'search borrowers\', \'checkin\', \'checkout\', \'book status\', \'books borrowed\', \'exit\'")
+
+
+main()
