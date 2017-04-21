@@ -263,14 +263,14 @@ def main():
             num = raw_input(":")
             authors = []
             try:
-                int(num)
+                 n = int(num)
             except:
                 print("Error not a number!")
                 continue
-            while num > 0:
+            while n > 0:
                 print("Input author")
                 authors.append(raw_input(":"))
-                num = num - 1
+                n = n - 1
             print("How many pages are there?")
             pages = raw_input(":")
             if add_book(title, authors, isbn, pages) :
