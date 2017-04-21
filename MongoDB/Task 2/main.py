@@ -24,7 +24,9 @@ def del_book(isbn):
     if db.books.count({'ISBN': isbn}) <= 0:
         return 0
     if db.books.count({'ISBN': isbn, 'Borrowed': -1}) > 0:
-        username = db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})[0][0]
+        usernames = db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})
+        for user in usernames:
+            username = user[0]
         db.borrowers.update_one(
             {'Username': username},
             {'$inc': {'Books': -1}}
@@ -216,7 +218,9 @@ def checkout_book(username, isbn):
 def checkin_book(isbn):
     if db.books.count({'ISBN': isbn}) <= 0:
         return 0
-    username = db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})[0][0]
+    usernames = db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})
+    for user in usernames:
+        username = user[0]
     res = db.books.update_one(
         {'ISBN': isbn},
         {'$set': {'Borrowed': -1}}
@@ -231,10 +235,16 @@ def checkin_book(isbn):
 def book_status(isbn):
     if db.books.count({'ISBN': isbn}) <= 0:
         return 0
-    return db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})[0][0]
+    usernames = db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})
+    for user in usernames:
+        username = user[0]
+    return username
 
 
 def books_borrowed(username):
     if db.borrowers.count({'Username': username}) <= 0:
         return 0
-    return db.borrowers.find({'Username': username}, {'_id': 0, 'Books': 1})[0][0]
+    books = db.books.find({'Username': username}, {'_id': 0, 'Books': 1})
+    for b in books:
+        book = b[0]
+    return book
