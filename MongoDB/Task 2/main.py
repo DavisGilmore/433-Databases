@@ -280,7 +280,10 @@ def main():
         elif cmd.lower() == "del book":
             print("What is the ISBN?")
             isbn = raw_input(":")
-            del_book(isbn)
+            if del_book(isbn):
+                print("operation successful")
+            else:
+                print("operation failed")
         elif cmd.lower() == "edit book":
             print("What is the ISBN?")
             isbn = raw_input(":")
