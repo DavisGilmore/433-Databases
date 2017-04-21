@@ -204,11 +204,11 @@ def checkout_book(username, isbn):
         return 0
     if db.books.count({'ISBN': isbn, 'Borrowed': -1}) <= 0:
         return 0
-    res = db.borrowers.update_one(
+    db.borrowers.update_one(
         {'Username': username},
         {'$inc': {'Books': 1}}
     )
-    res = res + db.books.update_one(
+    res = db.books.update_one(
         {'ISBN': isbn},
         {'$set': {'Borrowed': username}}
     )
@@ -221,11 +221,11 @@ def checkin_book(isbn):
     usernames = db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})
     for user in usernames:
         username = user.values()[0]
-    res = db.books.update_one(
+    db.books.update_one(
         {'ISBN': isbn},
         {'$set': {'Borrowed': -1}}
     )
-    res = res + db.borrowers.update_one(
+    res = db.borrowers.update_one(
         {'Username': username},
         {'$inc': {'Books': -1}}
     )
