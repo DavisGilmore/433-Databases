@@ -246,5 +246,223 @@ def books_borrowed(username):
         return 0
     books = db.books.find({'Username': username}, {'_id': 0, 'Books': 1})
     for b in books:
-        book = b.values()[0]
-    return book
+        number = b.values()[0]
+    return number
+
+
+def main():
+    while True:
+        print("Welcome to the Library! What would you like to do?")
+        cmd = raw_input(":")
+        if cmd.lower() == "add book":
+            print("What is the book ISBN?")
+            isbn = raw_input(":")
+            print("What is the book title?")
+            title = raw_input(":")
+            print("How many authors are there?")
+            num = raw_input(":")
+            authors = []
+            try:
+                int(num)
+            except:
+                print("Error not a number!")
+                continue
+            while num > 0:
+                print("Input author")
+                authors.append(raw_input(":"))
+                num = num - 1
+            print("How many pages are there?")
+            pages = raw_input(":")
+            if add_book(title, authors, isbn, pages) :
+                print("operation successful")
+            else :
+                print("operation failed")
+        elif cmd.lower() == "del book":
+            print("What is the ISBN?")
+            isbn = raw_input(":")
+            del_book(isbn)
+        elif cmd.lower() == "edit book":
+            print("What is the ISBN?")
+            isbn = raw_input(":")
+            print("Would you like to remove an attribute?(Y/N)")
+            cmd = raw_input(":")
+            if cmd.lower() == "y" :
+                print("What attribute would you like to remove?(title, author, numpages")
+                cmd = raw_input(":")
+                if cmd.lower() == "title" :
+                    if del_book_title(isbn):
+                        print("operation successful")
+                    else :
+                        print("operation failed")
+                elif cmd.lower() == "numpages" :
+                    if del_book_title(isbn):
+                        print("operation successful")
+                    else :
+                        print("operation failed")
+                elif cmd.lower() == "author":
+                    print("Which author would you like to remove?")
+                    author = raw_input(":")
+                    if edit_book_del_author(isbn, author) :
+                        print("operation successful")
+                    else :
+                        print("operation failed")
+                else :
+                    print("Not an option")
+            else :
+                print("What attribute would you like to edit?(isbn, title, author, numpages")
+                cmd = raw_input(":")
+                if cmd.lower() == "isbn":
+                    print("What is the new isbn?")
+                    nisbn= raw_input(":")
+                    if edit_book_isbn(isbn, nisbn):
+                        print("operation successful")
+                    else:
+                        print("operation failed")
+                elif cmd.lower() == "title":
+                    print("What is the new title?")
+                    title = raw_input(":")
+                    if edit_book_title(isbn, title):
+                        print("operation successful")
+                    else:
+                        print("operation failed")
+                elif cmd.lower() == "numpages":
+                    print("What is the new number of pages?")
+                    pages = raw_input(":")
+                    if edit_book_pages(isbn, pages):
+                        print("operation successful")
+                    else:
+                        print("operation failed")
+                elif cmd.lower() == "author":
+                    print("Who is the new author?")
+                    author = raw_input(":")
+                    if edit_book_add_author(isbn, author):
+                        print("operation successful")
+                    else:
+                        print("operation failed")
+                else:
+                    print("Not an option")
+        elif cmd.lower() == "search books" :
+            print("What would you like to search by?(isbn, title, author)")
+            cmd = raw_input(":")
+            print("What is your search term?")
+            search = raw_input(":")
+            if cmd.lower() == "isbn" :
+                cursor = search_book_isbn(search)
+            elif cmd.lower() == "title" :
+                cursor = search_book_title(search)
+            elif cmd.lower() == "author" :
+                cursor = search_book_author(search)
+            else :
+                print("invalid search by")
+                continue
+            for tuple in cursor:
+                print(tuple)
+        elif cmd.lower() == "sort books" :
+            print("Which sorted group would you like to see?(isbn, title, author, numpages)")
+            cmd = raw_input(":")
+            if cmd.lower() == "isbn" :
+                cursor = sort_book_isbn()
+            elif cmd.lower() == "title" :
+                cursor = sort_book_title()
+            elif cmd.lower() == "author" :
+                cursor = sort_book_author()
+            elif cmd.lower() == "numpages" :
+                cursor = sort_book_num_pages()
+            else :
+                print("invalid search by")
+                continue
+            for tuple in cursor:
+                print(tuple)
+        elif cmd.lower() == "add borrower" :
+            print("What is the borrower's username?")
+            user = raw_input(":")
+            print("What is the borrower's name?")
+            name = raw_input(":")
+            print("What is the borrower's phone number?")
+            phone = raw_input(":")
+            if add_borrower(name, user, phone):
+                print("operation succesful")
+            else :
+                print("operation failed")
+        elif cmd.lower() == "del borrower" :
+            print("What is the username of the borrower to be deleted?")
+            user = raw_input(":")
+            if del_borrower(user):
+                print("operation succesful")
+            else :
+                print("operation failed")
+        elif cmd.lower() == "edit borrower" :
+            print("What username would you like to update?")
+            username = raw_input(":")
+            print("What attribute would you like to update?(name, username, phone)")
+            cmd = raw_input(":")
+            if cmd.lower() == "name" :
+                print("What is the new name?")
+                name = raw_input(":")
+                if edit_borrower_name(username, name):
+                    print("operation succesful")
+                else:
+                    print("operation failed")
+            elif cmd.lower() == "username":
+                print("What is the new username?")
+                nuser = raw_input(":")
+                if edit_borrower_username(username, nuser):
+                    print("operation succesful")
+                else:
+                    print("operation failed")
+            elif cmd.lower() == "phone":
+                print("What is the new phone number?")
+                phone = raw_input(":")
+                if edit_borrower_phone(username, phone):
+                    print("operation succesful")
+                else:
+                    print("operation failed")
+            else :
+                print("invalid attribute")
+        elif cmd.lower() == "search borrowers" :
+            print("What would you like to search on?(username, name)")
+            cmd = raw_input(":")
+            print("What is your search term?")
+            search = raw_input(":")
+            if cmd.lower() == "username":
+                cursor = search_borrower_username(search)
+            elif cmd.lower() == "name":
+                cursor = search_borrower_name(search)
+            else:
+                print("invalid search by")
+                continue
+            for tuple in cursor:
+                print(tuple)
+        elif cmd.lower() == "checkout" :
+            print("What is the username?")
+            username = raw_input(":")
+            print("What is the ISBN?")
+            isbn = raw_input(":")
+            if checkout_book(username, isbn):
+                print("operation succesful")
+            else:
+                print("operation failed")
+        elif cmd.lower() == "checkin" :
+            print("What is the ISBN?")
+            isbn = raw_input(":")
+            if checkin_book(isbn):
+                print("operation succesful")
+            else:
+                print("operation failed")
+        elif cmd.lower() == "book status" :
+            print("What ISBN would you like to check?")
+            isbn = raw_input(":")
+            status = book_status(isbn)
+            if  status == -1:
+                print(str(isbn) + " is not currently checked out")
+            else:
+                print(str(isbn) + " is currently checked out to \'" + status + "\'")
+        elif cmd.lower() == "books borrowed" :
+            print("What borrower would you like to view?")
+            username = raw_input(":")
+            books = books_borrowed(username)
+            print("User: \'" + str(username) + "\' has " + str(books) + " books checked out")
+        elif cmd.lower() == "exit":
+            return 0
+        else :
+            print("Available commands are: \'add book\', \'edit book\', \'del book\', \'search books\', \'sort books\', \'add borrower\', \'edit borrower\', \'del borrower\', \'search borrowers\', \'checkin\', \'checkout\', \'book status\', \'books borrowed\', \'exit\'")
