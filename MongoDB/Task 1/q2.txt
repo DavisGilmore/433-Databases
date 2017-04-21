@@ -1,0 +1,2 @@
+db.ads.find({'Author.Username': 'mika_h'})
+db.ads.find({'Author.username': 'steve'})

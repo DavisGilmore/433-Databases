@@ -1,0 +1,60 @@
+db.ads.insert(
+	{
+		'Title': 'BMW 320 for Sale',
+		'Description': 'BMW 320d, 2.0 diesel, 4 doors, automatic transmission. Year: 2007. Miles: 107,000. Price: 2400.',
+		'Price': '2400',
+		'Location': 'Btown',
+		'Date': '2014-12-26 12:37',
+		'Author': {
+			'Username': 'mika_h',
+			'Name': 'Mika Hakkinen',
+			'Email': 'mika@gmail.com',
+			'Phone': '812 455 6478'
+		}
+	}
+)
+dbs.ads.insert(
+	{
+		'Title': 'Job as Housekeeper',
+		'Description': 'I am looking for a job as housekeeper.',
+		'Price': '0',
+		'Location': 'Terre Haute',
+		'Date': '2014-12-30 23:43',
+		'Author': {
+			'Username': 'steve',
+			'Name': 'Steve Wilson',
+			'Email': 'steve@yahoo.com',
+			'Phone': '812 343 7658'
+		}
+	}
+)
+db.ads.insert(
+	{
+		'Title': '3 bed apartment to let',
+		'Description': 'Very good. A must see. Price: 750.',
+		'Price': '750',
+		'Location': 'Btown',
+		'Date': '2015-01-17 10:44',
+		'Author': {
+			'Username': 'mika_h',
+			'Name': 'Mika Hakkinen',
+			'Email': 'mika@gmail.com',
+			'Phone': '812 455 6478'
+		}
+	}
+)
+dbs.ads.insert(
+	{
+		'Title': 'Free MP3 Player',
+		'Description': 'Free MP3 player, broken.',
+		'Price': '0',
+		'Location': 'South Bend',
+		'Date': '2014-11-28 21:15',
+		'Author': {
+			'Username': 'steve',
+			'Name': 'Steve Wilson',
+			'Email': 'steve@yahoo.com',
+			'Phone': '812 343 7658'
+		}
+	}
+)

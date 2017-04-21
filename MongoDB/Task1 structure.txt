@@ -1,0 +1,18 @@
+Ad : 
+{
+	"Title":
+	"Description":
+	"Price":
+	"Location":
+	"Date":
+	"Author": {
+		"Username":
+		"Name":
+		"Email":
+		"Phone":
+	}
+}
+
+q1 insert all
+q2 search by user
+q3 search by price
