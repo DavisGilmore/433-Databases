@@ -119,19 +119,19 @@ def search_book_author(author):
 
 
 def sort_book_isbn():
-    return db.books.sort('ISBN', 1)
+    return db.books.find().sort('ISBN', 1)
 
 
 def sort_book_title():
-    return db.books.sort('Title', 1)
+    return db.books.find().sort('Title', 1)
 
 
 def sort_book_author():
-    return db.books.sort('Authors', 1)
+    return db.books.find().sort('Authors', 1)
 
 
 def sort_book_num_pages():
-    return db.books.sort('NumberPages', 1)
+    return db.books.find().sort('NumberPages', 1)
 
 
 def add_borrower(name, username, phone):
