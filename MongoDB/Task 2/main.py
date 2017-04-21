@@ -23,7 +23,7 @@ def add_book(title, authors, isbn, num_pages):
 def del_book(isbn):
     if db.books.count({'ISBN': isbn}) <= 0:
         return 0
-    if db.books.count({'ISBN': isbn, 'Borrowed': -1}) > 0:
+    if db.books.count({'ISBN': isbn, 'Borrowed': -1}) == 0:
         usernames = db.books.find({'ISBN': isbn}, {'_id': 0, 'Borrowed': 1})
         for user in usernames:
             username = user.values()[0]
