@@ -119,19 +119,19 @@ def search_book_author(author):
 
 
 def sort_book_isbn():
-    return db.books.find().sort('ISBN', 1)
+    return db.books.find().sort('ISBN', pymongo.ASCENDING)
 
 
 def sort_book_title():
-    return db.books.find().sort('Title', 1)
+    return db.books.find().sort('Title', pymongo.ASCENDING)
 
 
 def sort_book_author():
-    return db.books.find().sort('Authors', 1)
+    return db.books.find().sort('Authors', pymongo.ASCENDING)
 
 
 def sort_book_num_pages():
-    return db.books.find().sort('NumberPages', 1)
+    return db.books.find().sort('NumberPages', pymongo.ASCENDING)
 
 
 def add_borrower(name, username, phone):
