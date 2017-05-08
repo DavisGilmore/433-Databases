@@ -92,6 +92,38 @@ def search_book_author(author):
 	)
 
 
+def sort_book_isbn():
+	return ses.run(
+		"MATCH (b:Book)"
+		"RETURN b"
+		"ORDER BY b.isbn"
+	)
+
+
+def sort_book_title():
+	return ses.run(
+		"MATCH (b:Book)"
+		"RETURN b"
+		"ORDER BY b.title"
+	)
+
+
+def sort_book_author():
+	return ses.run(
+		"MATCH (b:Book)"
+		"RETURN b"
+		"ORDER BY b.author"
+	)
+
+
+def sort_book_num_pages():
+	return ses.run(
+		"MATCH (b:Book)"
+		"RETURN b"
+		"ORDER BY b.num_pages"
+	)
+
+
 def add_borrower(name, username, phone):
 	return ses.run(
 		"CREATE (b:Borrower { name: {name},"
@@ -150,6 +182,41 @@ def search_borrower_name(name):
 		"MATCH (b:Borrower { name: {name}})"
 		"RETURN b",
 		{"name": name}
+	)
+
+
+def checkout_book(username, isbn):
+	return ses.run(
+		"MATCH (r:Borrower { username: {username}}),"
+		"(b:Book { isbn: {isbn}})"
+		"CREATE (r)-[:Borrowed]->(b)",
+		{"username": username, "isbn": isbn}
+	)
+
+
+def checkin_book(isbn):
+	return ses.run(
+		"MATCH (b:Book { isbn: {isbn}})"
+		"DELETE (:Borrower)-[:Borrowed]->(b)",
+		{"isbn": isbn}
+	)
+
+
+def book_status(isbn):
+	return ses.run(
+		"MATCH (b:Book { isbn: {isbn}})"
+		"MATCH (r:Borrower)-[:Borrowed]->(b)"
+		"RETURN r",
+		{"isbn": isbn}
+	)
+
+
+def books_borrower(username):
+	return ses.run(
+		"MATCH (r:Borrower { username: {username}})"
+		"MATCH (r)-[:Borrowed]->()"
+		"RETURN COUNT(*)",
+		{"username": username}
 	)
 
 
