@@ -298,7 +298,7 @@ def main():
                     else :
                         print("operation failed")
                 elif cmd.lower() == "numpages" :
-                    if del_book_title(isbn):
+                    if del_book_pages(isbn):
                         print("operation successful")
                     else :
                         print("operation failed")
@@ -456,7 +456,10 @@ def main():
             print("What ISBN would you like to check?")
             isbn = raw_input(":")
             status = book_status(isbn)
-            if  status == -1:
+            if status == 0:
+                print("operation failed")
+                continue
+            if status == -1:
                 print(str(isbn) + " is not currently checked out")
             else:
                 print(str(isbn) + " is currently checked out to \'" + status + "\'")

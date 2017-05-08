@@ -1,0 +1,7 @@
+CREATE INDEX ON :Author(Username)
+
+MATCH (u:Author { Username: 'mika_h'}), (u)-[:Wrote]->(a:Ad)
+RETURN a;
+
+MATCH (u:Author { Username: 'steve'}), (u)-[:Wrote]->(a:Ad)
+RETURN a;
